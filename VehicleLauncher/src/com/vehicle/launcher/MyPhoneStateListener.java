@@ -1,7 +1,7 @@
 
 package com.vehicle.launcher;
 
-import com.vihicle.view.SignalView;
+import com.vehicle.view.SignalView;
 
 import android.content.Context;
 import android.telephony.PhoneStateListener;

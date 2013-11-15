@@ -12,8 +12,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 
 import com.example.cam.R;
-import com.vihicle.view.BatteryView;
-import com.vihicle.view.SignalView;
+import com.vehicle.view.BatteryView;
+import com.vehicle.view.SignalView;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

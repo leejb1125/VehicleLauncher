@@ -15,7 +15,7 @@
         android:layout_marginTop="4dp"
         android:background="#c4c9e5" >
 
-        <com.vihicle.view.BatteryView
+        <com.vehicle.view.BatteryView
             android:id="@+id/battery"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/title_icon_height"
@@ -45,9 +45,9 @@
                 android:src="@drawable/battery_plug"
                 android:visibility="invisible" />
 
-        </com.vihicle.view.BatteryView>
+        </com.vehicle.view.BatteryView>
 
-        <com.vihicle.view.SignalView
+        <com.vehicle.view.SignalView
             android:id="@+id/phone_signal"
             android:layout_width="40dp"
             android:layout_height="@dimen/title_icon_height"
@@ -96,7 +96,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/signal_grid" />
 
-        </com.vihicle.view.SignalView>
+        </com.vehicle.view.SignalView>
 
         <TextView
             android:id="@+id/data_link"
