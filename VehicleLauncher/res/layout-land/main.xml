@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff059dd4" >
+
+    <RelativeLayout
+        android:id="@+id/titlebar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@id/preview"
+        android:layout_alignParentTop="false"
+        android:layout_alignRight="@+id/switch_group"
+        android:layout_marginTop="4dp"
+        android:background="#c4c9e5" >
+
+        <com.vihicle.view.BatteryView
+            android:id="@+id/battery"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_icon_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:text="Battery"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+
+            <ImageView
+                android:id="@+id/battery_frame"
+                android:layout_width="@dimen/battery_frame_width"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/battery_discharged" />
+
+            <ImageView
+                android:id="@+id/battery_plug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/battery_plug"
+                android:visibility="invisible" />
+
+        </com.vihicle.view.BatteryView>
+
+        <com.vihicle.view.SignalView
+            android:id="@+id/phone_signal"
+            android:layout_width="40dp"
+            android:layout_height="@dimen/title_icon_height"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/battery"
+            android:gravity="center_horizontal"
+            android:text="Phone Signal"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+
+            <ImageView
+                android:id="@+id/signal_grid1"
+                android:layout_width="@dimen/signal_grid_width"
+                android:layout_height="@dimen/signal_grid_height"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/signal_grid" />
+
+            <ImageView
+                android:id="@+id/signal_grid2"
+                android:layout_width="@dimen/signal_grid_width"
+                android:layout_height="@dimen/signal_grid_heightx2"
+                android:layout_alignBottom="@id/signal_grid1"
+                android:layout_marginRight="2dp"
+                android:layout_toRightOf="@id/signal_grid1"
+                android:scaleType="fitXY"
+                android:src="@drawable/signal_grid" />
+
+            <ImageView
+                android:id="@+id/signal_grid3"
+                android:layout_width="@dimen/signal_grid_width"
+                android:layout_height="@dimen/signal_grid_heightx3"
+                android:layout_alignBottom="@id/signal_grid2"
+                android:layout_marginRight="2dp"
+                android:layout_toRightOf="@id/signal_grid2"
+                android:scaleType="fitXY"
+                android:src="@drawable/signal_grid" />
+
+            <ImageView
+                android:id="@+id/signal_grid4"
+                android:layout_width="@dimen/signal_grid_width"
+                android:layout_height="@dimen/signal_grid_heightx4"
+                android:layout_alignBottom="@id/signal_grid3"
+                android:layout_toRightOf="@id/signal_grid3"
+                android:scaleType="fitXY"
+                android:src="@drawable/signal_grid" />
+
+        </com.vihicle.view.SignalView>
+
+        <TextView
+            android:id="@+id/data_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/phone_signal"
+            android:text="Data Network"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/preview"
+        android:layout_width="@dimen/preview_width"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/all_apps_layout"
+        android:layout_below="@id/titlebar_layout"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp" >
+
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/text_bg" >
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:src="@drawable/record_setting_sel" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:src="@drawable/fullscreen" />
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:src="@drawable/favorate_sel" />
+
+            </LinearLayout>
+
+            <ToggleButton
+                android:id="@+id/record_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/record_toggle"
+                android:textOff="@null"
+                android:textOn="@null" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/all_apps_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="72dp"
+        android:layout_alignLeft="@id/preview"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/favorite_apps"
+        android:layout_marginBottom="4dp"
+        android:background="#ff0997d0" >
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/switch_group"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/switch_group"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/preview"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_toRightOf="@id/preview"
+        android:background="#ff0572c7" >
+
+        <TextView
+            android:id="@+id/volume_control_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="16dp"
+            android:text="音量控制" />
+
+        <TextView
+            android:id="@+id/brightness_control_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/volume_control_title"
+            android:layout_below="@+id/volume_control_title"
+            android:layout_marginTop="8dp"
+            android:paddingTop="5dp"
+            android:text="屏幕亮度" />
+
+        <TextView
+            android:id="@+id/network_switch_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/brightness_control_title"
+            android:layout_below="@+id/brightness_control_title"
+            android:layout_marginTop="13dp"
+            android:paddingTop="8dp"
+            android:text="网络开关" />
+
+        <TextView
+            android:id="@+id/night_mode_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/network_switch_title"
+            android:layout_below="@+id/network_switch_title"
+            android:layout_marginTop="13dp"
+            android:text="夜视模式"
+            android:visibility="gone" />
+
+        <SeekBar
+            android:id="@+id/brightness_control_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/volume_control_bar"
+            android:layout_alignRight="@+id/volume_control_bar"
+            android:layout_alignTop="@id/brightness_control_title"
+            android:layout_toRightOf="@+id/brightness_control_title"
+            android:minHeight="6dp"
+            android:progress="90" />
+
+        <android.widget.Switch
+            android:id="@+id/network_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignLeft="@+id/brightness_control_bar"
+            android:layout_alignRight="@+id/brightness_control_bar"
+            android:layout_alignTop="@+id/network_switch_title" />
+
+        <android.widget.Switch
+            android:id="@+id/night_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/night_mode_title"
+            android:layout_alignLeft="@+id/network_switch"
+            android:layout_alignRight="@+id/network_switch"
+            android:layout_alignTop="@+id/night_mode_title"
+            android:visibility="gone" />
+
+        <SeekBar
+            android:id="@+id/volume_control_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/brightness_control_bar"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/volume_control_title"
+            android:indeterminateBehavior="cycle"
+            android:maxHeight="12dp"
+            android:minHeight="12dp"
+            android:progress="20" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/favorite_apps"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/all_apps_layout"
+        android:layout_alignBottom="@id/preview"
+        android:layout_alignLeft="@id/switch_group"
+        android:layout_alignRight="@+id/switch_group"
+        android:layout_below="@+id/switch_group"
+        android:layout_toRightOf="@id/preview"
+        android:background="#ff3e9cbd" >
+    </RelativeLayout>
+
+</RelativeLayout>

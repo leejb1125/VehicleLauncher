@@ -1,0 +1,12 @@
+<resources>
+    <dimen name="preview_width">320dp</dimen>
+    <dimen name="switch_group">118dp</dimen>
+    <dimen name="title_icon_height">24dp</dimen>
+    <dimen name="signal_grid_width">6dp</dimen>
+    <dimen name="signal_grid_height">8dp</dimen>
+    <dimen name="signal_grid_heightx2">12dp</dimen>
+    <dimen name="signal_grid_heightx3">20dp</dimen>
+    <dimen name="signal_grid_heightx4">26dp</dimen>
+    <dimen name="battery_frame_width">45dp</dimen>
+    <dimen name="battery_plug_width">50dp</dimen>
+</resources>
