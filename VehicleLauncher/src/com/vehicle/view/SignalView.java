@@ -2,7 +2,7 @@ package com.vehicle.view;
 
 import java.util.ArrayList;
 
-import com.example.cam.R;
+import com.vehicle.launcher.R;
 import com.vehicle.launcher.MyPhoneStateListener;
 
 import android.content.Context;

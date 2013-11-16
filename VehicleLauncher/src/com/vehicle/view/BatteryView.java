@@ -2,7 +2,7 @@ package com.vehicle.view;
 
 import javax.net.ssl.HandshakeCompletedListener;
 
-import com.example.cam.R;
+import com.vehicle.launcher.R;
 
 import android.content.Context;
 import android.graphics.Canvas;

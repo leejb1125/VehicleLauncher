@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 
-import com.example.cam.R;
+import com.vehicle.launcher.R;
 import com.vehicle.view.BatteryView;
 import com.vehicle.view.SignalView;
 
@@ -60,7 +60,7 @@ import android.telephony.TelephonyManager;
 import android.widget.Switch; 
 
 public class LauncherActivity extends Activity {
-	private static final String TAG = "CamTestActivity";
+	private static final String TAG = "LauncherActivity";
 	Preview preview;
 	Button buttonClick;
 	BatteryView battery;
@@ -120,31 +120,55 @@ public class LauncherActivity extends Activity {
 	}
 
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		ctx = this;
-		act = this;
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.main);
-		initViews();
-		
-		mPhoneStateListener = new MyPhoneStateListener(this, mPhoneSignal);
-		mPhone = (TelephonyManager) this
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ctx = this;
+        act = this;
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.main);
+        initViews();
+
+        mPhoneStateListener = new MyPhoneStateListener(this, mPhoneSignal);
+        mPhone = (TelephonyManager) this
                 .getSystemService(Context.TELEPHONY_SERVICE);
         mPhone.listen(mPhoneStateListener,
                 PhoneStateListener.LISTEN_SERVICE_STATE
                         | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE
                         | PhoneStateListener.LISTEN_DATA_ACTIVITY
                         | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-        
+
         //
-        DisplayMetrics dm = new DisplayMetrics();   
-        getWindowManager().getDefaultDisplay().getMetrics(dm);   
-        Log.d(TAG, "resolution: "+dm.widthPixels+" * "+dm.heightPixels);   
-        Log.d(TAG, "density: "+dm.density); 
-	}
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Log.d(TAG, "resolution: " + dm.widthPixels + " * " + dm.heightPixels);
+        Log.d(TAG, "density: " + dm.density);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // preview.camera = Camera.open();
+        camera = Camera.open();
+        camera.startPreview();
+        preview.setCamera(camera);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(mBatteryBroadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        if (camera != null) {
+            camera.stopPreview();
+            preview.setCamera(null);
+            camera.release();
+            camera = null;
+        }
+        super.onPause();
+        unregisterReceiver(mBatteryBroadcastReceiver);
+    }
 	
 	private void initViews(){
 		battery = (BatteryView) findViewById(R.id.battery);
@@ -192,13 +216,11 @@ public class LauncherActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -214,7 +236,6 @@ public class LauncherActivity extends Activity {
 		playSoundPool.loadSfx(R.raw.water3, 1);
 		mVolumeSeekBar =  (SeekBar) findViewById(R.id.volume_control_bar);		
 		mVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 			}
@@ -239,55 +260,54 @@ public class LauncherActivity extends Activity {
 	}
 	
 
-private boolean checkNetworkValidate() {
-    ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-     //mobile 3G Data Network 
-    State mobile = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState(); 
+    private boolean checkNetworkValidate() {
+        ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        // mobile 3G Data Network
+        State mobile = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
 
-    if (mobile==State.CONNECTED||mobile==State.CONNECTING) 
-        return true; 
-    return false;
-}	
+        if (mobile == State.CONNECTED || mobile == State.CONNECTING)
+            return true;
+        return false;
+    }
 	
+    public void setDataConnectivity(boolean isAvaliable) {
+        Method dataConnSwitchmethod;
+        Class telephonyManagerClass;
+        Object ITelephonyStub;
+        Class ITelephonyClass;
 
-	public void setDataConnectivity(boolean isAvaliable) {
-		Method dataConnSwitchmethod;
-		Class telephonyManagerClass;
-		Object ITelephonyStub;
-		Class ITelephonyClass;
+        TelephonyManager telephonyManager = (TelephonyManager) this
+                .getSystemService(Context.TELEPHONY_SERVICE);
 
-		TelephonyManager telephonyManager = (TelephonyManager) this
-				.getSystemService(Context.TELEPHONY_SERVICE);
+        boolean isConnected = (telephonyManager.getDataState() == TelephonyManager.DATA_CONNECTED);
+        if (isAvaliable && isConnected) {
+            return;
+        }
+        try {
+            telephonyManagerClass = Class.forName(telephonyManager.getClass()
+                    .getName());
+            Method getITelephonyMethod = telephonyManagerClass
+                    .getDeclaredMethod("getITelephony");
+            getITelephonyMethod.setAccessible(true);
+            ITelephonyStub = getITelephonyMethod.invoke(telephonyManager);
+            ITelephonyClass = Class
+                    .forName(ITelephonyStub.getClass().getName());
 
-		boolean isConnected = (telephonyManager.getDataState() == TelephonyManager.DATA_CONNECTED);
-		if (isAvaliable && isConnected) {
-			return;
-		}
-		try {
-			telephonyManagerClass = Class.forName(telephonyManager.getClass()
-					.getName());
-			Method getITelephonyMethod = telephonyManagerClass
-					.getDeclaredMethod("getITelephony");
-			getITelephonyMethod.setAccessible(true);
-			ITelephonyStub = getITelephonyMethod.invoke(telephonyManager);
-			ITelephonyClass = Class
-					.forName(ITelephonyStub.getClass().getName());
-
-			if (isAvaliable) {
-				dataConnSwitchmethod = ITelephonyClass
-						.getDeclaredMethod("disableDataConnectivity");
-			} else {
-				dataConnSwitchmethod = ITelephonyClass
-						.getDeclaredMethod("enableDataConnectivity");
-			}
-			dataConnSwitchmethod.setAccessible(true);
-			dataConnSwitchmethod.invoke(ITelephonyStub);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            if (isAvaliable) {
+                dataConnSwitchmethod = ITelephonyClass
+                        .getDeclaredMethod("disableDataConnectivity");
+            } else {
+                dataConnSwitchmethod = ITelephonyClass
+                        .getDeclaredMethod("enableDataConnectivity");
+            }
+            dataConnSwitchmethod.setAccessible(true);
+            dataConnSwitchmethod.invoke(ITelephonyStub);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
-	private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver mBatteryBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
@@ -374,29 +394,7 @@ private boolean checkNetworkValidate() {
 		}
 	};
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		//      preview.camera = Camera.open();
-		camera = Camera.open();
-		camera.startPreview();
-		preview.setCamera(camera);
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-		registerReceiver(mBroadcastReceiver, filter);
-	}
 
-	@Override
-	protected void onPause() {
-		if(camera != null) {
-			camera.stopPreview();
-			preview.setCamera(null);
-			camera.release();
-			camera = null;
-		}
-		super.onPause();
-		unregisterReceiver(mBroadcastReceiver);
-	}
 
 	private void resetCam() {
 		camera.startPreview();
