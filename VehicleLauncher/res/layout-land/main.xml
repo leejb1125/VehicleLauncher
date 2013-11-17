@@ -49,12 +49,11 @@
 
         <com.vehicle.view.SignalView
             android:id="@+id/phone_signal"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/title_icon_height"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/battery"
-            android:gravity="center_horizontal"
             android:text="Phone Signal"
             android:textAppearance="?android:attr/textAppearanceMedium" >
 
@@ -64,8 +63,10 @@
                 android:layout_height="@dimen/signal_grid_height"
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="2dp"
+                android:layout_toRightOf="@+id/data_link"
                 android:scaleType="fitXY"
-                android:src="@drawable/signal_grid" />
+                android:src="@drawable/signal_grid"
+                android:tag="signalgrid" />
 
             <ImageView
                 android:id="@+id/signal_grid2"
@@ -75,7 +76,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_toRightOf="@id/signal_grid1"
                 android:scaleType="fitXY"
-                android:src="@drawable/signal_grid" />
+                android:src="@drawable/signal_grid"
+                android:tag="signalgrid" />
 
             <ImageView
                 android:id="@+id/signal_grid3"
@@ -85,7 +87,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_toRightOf="@id/signal_grid2"
                 android:scaleType="fitXY"
-                android:src="@drawable/signal_grid" />
+                android:src="@drawable/signal_grid"
+                android:tag="signalgrid" />
 
             <ImageView
                 android:id="@+id/signal_grid4"
@@ -94,19 +97,21 @@
                 android:layout_alignBottom="@id/signal_grid3"
                 android:layout_toRightOf="@id/signal_grid3"
                 android:scaleType="fitXY"
-                android:src="@drawable/signal_grid" />
+                android:src="@drawable/signal_grid"
+                android:tag="signalgrid" />
+
+            <TextView
+                android:id="@+id/data_link"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="10dp"
+                android:paddingTop="2dp"
+                android:text="2G"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </com.vehicle.view.SignalView>
-
-        <TextView
-            android:id="@+id/data_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/phone_signal"
-            android:text="Data Network"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
 
@@ -126,21 +131,20 @@
             android:layout_height="wrap_content" />
 
         <RelativeLayout
-            android:id="@+id/RelativeLayout1"
+            android:id="@+id/function_button_layout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/text_bg" >
+                android:layout_alignParentTop="true" >
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -149,7 +153,7 @@
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -158,7 +162,7 @@
                 <ImageView
                     android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -169,6 +173,7 @@
                 android:id="@+id/record_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/record_button"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/record_toggle"
@@ -178,25 +183,26 @@
             <com.vehicle.view.WeatherView
                 android:id="@+id/weather_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true" >
 
                 <RelativeLayout
                     android:id="@+id/temp_layout"
-                    android:layout_width="60dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:layout_toLeftOf="@+id/city" >
+                    android:layout_alignParentRight="false"
+                    android:layout_toLeftOf="@+id/city"
+                    android:gravity="right" >
 
                     <TextView
                         android:id="@+id/temp"
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
+                        android:layout_alignParentRight="true"
                         android:text="N/A"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textSize="52sp" />
+                        android:textSize="46sp" />
 
                     <TextView
                         android:id="@+id/temp_unit"
@@ -228,9 +234,37 @@
                     android:gravity="center_vertical"
                     android:text="N/A"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </com.vehicle.view.WeatherView>
+
+            <com.vehicle.view.SpeedView
+                android:id="@+id/speed_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" >
+
+                <TextView
+                    android:id="@+id/speed_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="90"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="46sp" />
+
+                <TextView
+                    android:id="@+id/speed_u"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/speed_text"
+                    android:layout_toRightOf="@id/speed_text"
+                    android:text="KM/H"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="12sp" />
+
+            </com.vehicle.view.SpeedView>
 
         </RelativeLayout>
 

@@ -57,7 +57,9 @@ public class SignalView extends RelativeLayout {
                     break;
             }
                for(View child: mSignalGridViews){
-                   child.setVisibility(View.INVISIBLE);
+                   String tag = (String) child.getTag();
+                   if(tag != null && tag.equals("signalgrid"))
+                       child.setVisibility(View.INVISIBLE);
                }
                int childCount = getChildCount();
                for (int i = 0; i < level && i < childCount; i++) {

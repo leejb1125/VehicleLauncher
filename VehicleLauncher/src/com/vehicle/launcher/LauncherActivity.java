@@ -27,6 +27,8 @@ import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.DetailedState;
 import android.net.NetworkInfo.State;
 import android.net.Uri;
 import android.os.BatteryManager;
@@ -79,7 +81,7 @@ public class LauncherActivity extends Activity {
 	private TelephonyManager mPhone;	
 	private AudioManager mAudioManager;
 	private PlaySoundPool playSoundPool ;
-	Handler mBatteryUpdateHandler = new Handler();
+	Handler mUpdateHandler = new Handler();
 
 	
 	
@@ -130,7 +132,7 @@ public class LauncherActivity extends Activity {
         setContentView(R.layout.main);
         initViews();
 
-        mPhoneStateListener = new MyPhoneStateListener(this, mPhoneSignal);
+        mPhoneStateListener = new MyPhoneStateListener(this, mPhoneSignal, mDataLink);
         mPhone = (TelephonyManager) this
                 .getSystemService(Context.TELEPHONY_SERVICE);
         mPhone.listen(mPhoneStateListener,
@@ -156,6 +158,9 @@ public class LauncherActivity extends Activity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mBatteryBroadcastReceiver, filter);
+        filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(mNetConnectionBroadcastReceiver, filter);
     }
 
     @Override
@@ -168,6 +173,7 @@ public class LauncherActivity extends Activity {
         }
         super.onPause();
         unregisterReceiver(mBatteryBroadcastReceiver);
+        unregisterReceiver(mNetConnectionBroadcastReceiver);
     }
 	
 	private void initViews(){
@@ -306,6 +312,25 @@ public class LauncherActivity extends Activity {
             e.printStackTrace();
         }
     }
+    
+    private BroadcastReceiver mNetConnectionBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent arg1) {
+
+//            mUpdateHandler.post(new Runnable() {                
+//                @Override
+//                public void run() {
+//                    ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//                    // mobile 3G Data Network
+//                    DetailedState mobile = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getDetailedState();
+//                    mDataLink.setText(mobile.toString());                    
+//                }
+//            });
+
+        }
+    
+        
+    };
 	
 	private BroadcastReceiver mBatteryBroadcastReceiver = new BroadcastReceiver() {
 		@Override

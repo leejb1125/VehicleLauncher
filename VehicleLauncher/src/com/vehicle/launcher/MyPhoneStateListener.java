@@ -9,6 +9,7 @@ import android.telephony.ServiceState;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.TextView;
 
 public class MyPhoneStateListener extends PhoneStateListener {
 
@@ -29,16 +30,80 @@ public class MyPhoneStateListener extends PhoneStateListener {
     public static final int NUM_SIGNAL_STRENGTH_BINS = 5;
     
     SignalView mSignalView;
+    TextView mNetDataView;
 
-    public MyPhoneStateListener(Context ctx, SignalView signalView) {
+    public MyPhoneStateListener(Context ctx, SignalView signalView, TextView netDataView) {
         mContext = ctx;
         mSignalView = signalView;
+        mNetDataView = netDataView;
     }
 
     @Override
     public void onDataActivity(int direction) {
         super.onDataActivity(direction);
+        String dataDir = "";
         Log.v(TAG, "onDataActivity: " + direction);
+        switch (direction) {
+            case TelephonyManager.DATA_ACTIVITY_NONE:               
+                break;
+            case TelephonyManager.DATA_ACTIVITY_IN: 
+                dataDir = "down";
+                break;
+            case TelephonyManager.DATA_ACTIVITY_OUT:
+                dataDir = "up";
+                break;
+            case TelephonyManager.DATA_ACTIVITY_INOUT:
+                dataDir = "updown";
+                break;
+            default:
+                break;
+        }
+        TelephonyManager manager = (TelephonyManager) mContext
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        if(dataDir == ""){
+           
+            int netType = manager.getNetworkType();
+            String strNetType = "3G";
+            switch(netType){
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                    strNetType = "2G";
+                    break;
+                default :
+                        break;
+            }
+//            if(state == TelephonyManager.DATA_CONNECTED){
+//                if(mNetDataView != null){
+//                    mNetDataView.setText("3G");
+//                }
+//                
+//            }else{
+//                
+//            }
+            final String finalNetType = strNetType;
+            
+            if(mNetDataView != null){
+                mNetDataView.post(new Runnable() {                   
+                    @Override
+                    public void run() {
+                      mNetDataView.setText(finalNetType);                        
+                    }
+                });
+                
+            }
+            return;
+        }
+        int dataState = manager.getDataState();
+        final String finalDataDir = dataDir;
+        if(mNetDataView != null && dataState != TelephonyManager.DATA_DISCONNECTED){
+            mNetDataView.post(new Runnable() {                   
+                @Override
+                public void run() {
+                  mNetDataView.setText(finalDataDir);                        
+                }
+            });
+            
+        }
     }
 
     @Override
@@ -67,6 +132,16 @@ public class MyPhoneStateListener extends PhoneStateListener {
         if (state == TelephonyManager.DATA_DISCONNECTED) {
             Log.v(TAG, "onDataConnectionStateChanged: " + state);
         }
+       
+//        if(state == TelephonyManager.DATA_CONNECTED){
+//            if(mNetDataView != null){
+//                mNetDataView.setText("3G");
+//            }
+//            
+//        }else{
+//            
+//        }
+
     }
 
     @Override
@@ -102,9 +177,6 @@ public class MyPhoneStateListener extends PhoneStateListener {
     @Override
     public void onSignalStrengthsChanged(SignalStrength signalStrength) {
         super.onSignalStrengthsChanged(signalStrength);
-        TelephonyManager manager = (TelephonyManager) mContext
-                .getSystemService(Context.TELEPHONY_SERVICE);
-
         Log.d(TAG, "SignalStrength = " + String.valueOf(signalStrength
                 .getGsmSignalStrength()));
         int gsmLevel = getGsmLevel(signalStrength);
