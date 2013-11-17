@@ -1,4 +1,4 @@
-package com.way.bean;
+package com.vehicle.bean;
 
 import java.io.Serializable;
 

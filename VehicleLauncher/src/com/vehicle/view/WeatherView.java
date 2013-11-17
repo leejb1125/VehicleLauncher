@@ -19,23 +19,22 @@ import com.baidu.location.LocationClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.vehicle.bean.City;
+import com.vehicle.bean.Pm2d5;
+import com.vehicle.bean.SimpleWeather;
+import com.vehicle.bean.SimpleWeatherinfo;
+import com.vehicle.bean.Weather;
+import com.vehicle.bean.Weatherinfo;
+import com.vehicle.db.CityDB;
 import com.vehicle.launcher.LauncherApplication;
+import com.vehicle.launcher.R;
 import com.vehicle.launcher.WeatherModel;
-import com.way.bean.City;
-import com.way.bean.Pm2d5;
-import com.way.bean.SimpleWeather;
-import com.way.bean.SimpleWeatherinfo;
-import com.way.bean.Weather;
-import com.way.bean.Weatherinfo;
-import com.way.db.CityDB;
-import com.way.util.ConfigCache;
-
-import com.way.util.L;
-import com.way.util.NetUtil;
-import com.way.util.SharePreferenceUtil;
-import com.way.util.T;
-import com.way.util.TimeUtil;
-
+import com.vehicle.util.ConfigCache;
+import com.vehicle.util.L;
+import com.vehicle.util.NetUtil;
+import com.vehicle.util.SharePreferenceUtil;
+import com.vehicle.util.T;
+import com.vehicle.util.TimeUtil;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -47,6 +46,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -85,7 +85,10 @@ WeatherModel.EventHandler {
 
     private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv, pmQualityTv,
             temperatureTv, climateTv, windTv;
-    private ImageView weatherImg, pmImg;
+    private ImageView weatherImg;
+    TextView mCityView;
+    TextView mTempView;
+    
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -96,7 +99,8 @@ WeatherModel.EventHandler {
                 mCurCity = mCityDB.getCity(cityName);
                 L.i(mCurCity.toString());
                 mSpUtil.setCity(mCurCity.getCity());
-                cityTv.setText(mCurCity.getCity());
+                //cityTv.setText(mCurCity.getCity());
+                mCityView.setText(mCurCity.getCity());
                 updateWeather(true);
                 break;
             case ON_NEW_INTENT:
@@ -112,10 +116,10 @@ WeatherModel.EventHandler {
                 break;
             case GET_WEATHER_RESULT:
                 updateWeatherInfo();
-                updatePm2d5Info();
-                updateWidgetWeather();
-                mUpdateBtn.setVisibility(View.VISIBLE);
-                mUpdateProgressBar.setVisibility(View.GONE);
+                //updatePm2d5Info();
+                //updateWidgetWeather();
+                //mUpdateBtn.setVisibility(View.VISIBLE);
+                //mUpdateProgressBar.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -140,7 +144,16 @@ WeatherModel.EventHandler {
         getContext().sendBroadcast(new Intent(UPDATE_WIDGET_WEATHER_ACTION));
     }
     
+    protected void onFinishInflate() {
+        Log.d(TAG, "onFinishInflate");
+        initData();
+        initView();
+    }
+    
     private void initView() {
+        weatherImg = (ImageView) findViewById(R.id.weather_icon);
+        mCityView = (TextView) findViewById(R.id.city);
+        mTempView = (TextView) findViewById(R.id.temp);
 //        mCityManagerBtn = (ImageView) findViewById(R.id.title_city_manager);
 //        mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
 //        mShareBtn = (ImageView) findViewById(R.id.title_share);
@@ -151,13 +164,13 @@ WeatherModel.EventHandler {
 //        mLocationBtn.setOnClickListener(this);
         
       
-        if (TextUtils.isEmpty(mSpUtil.getCity())) {
+        if (mSpUtil != null && TextUtils.isEmpty(mSpUtil.getCity())) {
             if (NetUtil.getNetworkState(getContext()) != NetUtil.NETWORN_NONE) {
                 mLocationClient.start();
                 mLocationClient.requestLocation();
                 T.showShort(getContext(), "正在定位...");
-                mUpdateBtn.setVisibility(View.GONE);
-                mUpdateProgressBar.setVisibility(View.VISIBLE);
+                //mUpdateBtn.setVisibility(View.GONE);
+               // mUpdateProgressBar.setVisibility(View.VISIBLE);
             } else {
                 //T.showShort(this, R.string.net_err);
             }
@@ -168,15 +181,17 @@ WeatherModel.EventHandler {
     
     private void initData() {
         WeatherModel.mListeners.add(this);
-        mWeatherModel = LauncherApplication.getInstance().getWeatherModel();
-        mSpUtil = mWeatherModel.getSharePreferenceUtil();
-        mLocationClient = mWeatherModel.getLocationClient();
-
-        mLocationClient.registerLocationListener(mLocationListener);
-        mCityDB = mWeatherModel.getCityDB();
-        // 不转换没有 @Expose 注解的字段
-        mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-                .create();
+        if(LauncherApplication.getInstance() != null)
+            mWeatherModel = LauncherApplication.getInstance().getWeatherModel();
+        if(mWeatherModel != null){
+            mSpUtil = mWeatherModel.getSharePreferenceUtil();
+            mLocationClient = mWeatherModel.getLocationClient();
+            mLocationClient.registerLocationListener(mLocationListener);
+            mCityDB = mWeatherModel.getCityDB();
+            // 不转换没有 @Expose 注解的字段
+            mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+                    .create();  
+        }        
     }
     
     private void updateWeather(final boolean isRefresh) {
@@ -189,10 +204,10 @@ WeatherModel.EventHandler {
             return;
         }
         // T.showShort(this, "正在刷新天气...");
-        timeTv.setText("同步中...");
-        mTitleTextView.setText(mCurCity.getCity() + "天气");
-        mUpdateBtn.setVisibility(View.GONE);
-        mUpdateProgressBar.setVisibility(View.VISIBLE);
+        //timeTv.setText("同步中...");
+        //mTitleTextView.setText(mCurCity.getCity() + "天气");
+        //mUpdateBtn.setVisibility(View.GONE);
+        //mUpdateProgressBar.setVisibility(View.VISIBLE);
         // 启动线程获取天气信息
         new Thread() {
             @Override
@@ -377,17 +392,18 @@ WeatherModel.EventHandler {
     private void updateWeatherInfo() {
         if (mCurWeatherinfo != null) {
             mWeatherModel.setmCurWeatherinfo(mCurWeatherinfo);// 保存到全局变量中
-            temperatureTv.setText(mCurWeatherinfo.getTemp1());
-            cityTv.setText(mCurWeatherinfo.getCity());
+            //temperatureTv.setText(mCurWeatherinfo.getTemp1());
+            //cityTv.setText(mCurWeatherinfo.getCity());
+
 
             String wind = mCurWeatherinfo.getWind1();
             if (wind.contains("转")) {
                 String[] strs = wind.split("转");
                 wind = strs[0];
             }
-            windTv.setText(wind);
+            //windTv.setText(wind);
             String climate = mCurWeatherinfo.getWeather1();
-            climateTv.setText(climate);
+            //climateTv.setText(climate);
             mSpUtil.setSimpleClimate(climate);
             String[] strs = { "晴", "晴" };
             if (climate.contains("转")) {// 天气带转字，取前面那部分
@@ -412,9 +428,11 @@ WeatherModel.EventHandler {
                     mSpUtil.setTimeSamp(System.currentTimeMillis());// 保存一下更新的时间戳
                 }
                 mSpUtil.setSimpleTemp(mCurSimpleWeatherinfo.getTemp());
-                timeTv.setText(TimeUtil.getDay(mSpUtil.getTimeSamp())
-                        + mCurSimpleWeatherinfo.getTime() + "发布");
-                humidityTv.setText("湿度:" + mCurSimpleWeatherinfo.getSD());
+//                timeTv.setText(TimeUtil.getDay(mSpUtil.getTimeSamp())
+//                        + mCurSimpleWeatherinfo.getTime() + "发布");
+//                humidityTv.setText("湿度:" + mCurSimpleWeatherinfo.getSD());
+                mTempView.setText(mCurSimpleWeatherinfo.getTemp());
+                mCityView.setText(mCurSimpleWeatherinfo.getCity());
             }
             
         } else {
@@ -492,8 +510,8 @@ WeatherModel.EventHandler {
         @Override
         public void onReceiveLocation(BDLocation location) {
             // mActionBar.setProgressBarVisibility(View.GONE);
-            mUpdateBtn.setVisibility(View.VISIBLE);
-            mUpdateProgressBar.setVisibility(View.GONE);
+            //mUpdateBtn.setVisibility(View.VISIBLE);
+           // mUpdateProgressBar.setVisibility(View.GONE);
             if (location == null || TextUtils.isEmpty(location.getCity())) {
                 // T.showShort(getApplicationContext(), "location = null");
 //                final Dialog dialog = IphoneDialog.getTwoBtnDialog(

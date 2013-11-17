@@ -1,4 +1,4 @@
-package com.way.db;
+package com.vehicle.db;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
-import com.way.bean.City;
+import com.vehicle.bean.City;
 
 public class CityDB {
 	public static final String CITY_DB_NAME = "city.db";

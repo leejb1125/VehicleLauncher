@@ -163,7 +163,6 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:src="@drawable/favorate_sel" />
-
             </LinearLayout>
 
             <ToggleButton
@@ -176,7 +175,65 @@
                 android:textOff="@null"
                 android:textOn="@null" />
 
+            <com.vehicle.view.WeatherView
+                android:id="@+id/weather_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true" >
+
+                <RelativeLayout
+                    android:id="@+id/temp_layout"
+                    android:layout_width="60dp"
+                    android:layout_height="fill_parent"
+                    android:layout_toLeftOf="@+id/city" >
+
+                    <TextView
+                        android:id="@+id/temp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="N/A"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="52sp" />
+
+                    <TextView
+                        android:id="@+id/temp_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:text="o"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/weather_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@id/city"
+                    android:layout_toRightOf="@id/temp_layout"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/biz_plugin_weather_duoyun" />
+
+                <TextView
+                    android:id="@+id/city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/weather_icon"
+                    android:gravity="center_vertical"
+                    android:text="N/A"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </com.vehicle.view.WeatherView>
+
         </RelativeLayout>
+
     </FrameLayout>
 
     <RelativeLayout

@@ -1,4 +1,4 @@
-package com.way.util;
+package com.vehicle.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -12,9 +12,16 @@ public class LauncherApplication extends Application {
 	public static synchronized LauncherApplication getInstance() {
 		return mApplication;
 	}
+	
 
-	@Override
+	public LauncherApplication() {
+        super();
+        mApplication = this;
+    }
+
+    @Override
 	public void onCreate() {
+	    mApplication = this;
 		super.onCreate();
 		mWeatherModel.initData();
 	}

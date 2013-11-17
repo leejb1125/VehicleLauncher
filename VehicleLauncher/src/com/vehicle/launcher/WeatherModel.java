@@ -12,14 +12,14 @@ import java.util.Map;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.way.bean.City;
-import com.way.bean.Pm2d5;
-import com.way.bean.SimpleWeatherinfo;
-import com.way.bean.Weatherinfo;
-import com.way.db.CityDB;
-import com.way.util.NetUtil;
-import com.way.util.SharePreferenceUtil;
-import com.way.util.T;
+import com.vehicle.bean.City;
+import com.vehicle.bean.Pm2d5;
+import com.vehicle.bean.SimpleWeatherinfo;
+import com.vehicle.bean.Weatherinfo;
+import com.vehicle.db.CityDB;
+import com.vehicle.util.NetUtil;
+import com.vehicle.util.SharePreferenceUtil;
+import com.vehicle.util.T;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -142,7 +142,7 @@ public class WeatherModel {
                 is.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                T.showLong(mApplication, e.getMessage());
+                T.showLong(LauncherApplication.getInstance(), e.getMessage());
                 System.exit(0);
             }
         }
@@ -316,7 +316,7 @@ public class WeatherModel {
                         handler.onNetChange();
                     }
             }
-            mNetWorkState = NetUtil.getNetworkState(mApplication);
+            mNetWorkState = NetUtil.getNetworkState(LauncherApplication.getInstance());
         }
 
     };

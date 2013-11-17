@@ -1,4 +1,4 @@
-package com.way.util;
+package com.vehicle.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

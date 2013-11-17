@@ -1,4 +1,4 @@
-package com.way.util;
+package com.vehicle.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
