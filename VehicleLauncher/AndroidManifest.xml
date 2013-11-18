@@ -36,7 +36,8 @@
     <application
         android:name="com.vehicle.launcher.LauncherApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name" 
+        android:hardwareAccelerated="true">
         <activity
             android:label="@string/app_name"
             android:name="com.vehicle.launcher.LauncherActivity"

@@ -15,6 +15,7 @@ import android.os.BatteryManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -85,6 +86,7 @@ public class BatteryView extends RelativeLayout {
 					}
 					if(mBatteryPlug != null){
 						mBatteryPlug.setVisibility(View.VISIBLE);
+						mBatteryPlug.startAnimation(AnimationUtils.loadAnimation(mBatteryPlug.getContext(), android.R.anim.slide_in_left));
 					}
 					break;
 				case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
@@ -92,6 +94,9 @@ public class BatteryView extends RelativeLayout {
 					if(mBatteryFrame != null){
 						mBatteryFrame.setImageResource(R.drawable.battery_discharged);
 					}
+					if(mBatteryPlug != null){
+                        mBatteryPlug.startAnimation(AnimationUtils.loadAnimation(mBatteryPlug.getContext(), android.R.anim.slide_out_right));
+                    }
 					break;
 				case BatteryManager.BATTERY_STATUS_FULL:
 					if(mBatteryFrame != null){

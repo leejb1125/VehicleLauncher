@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, CamTestActivity!</string>
     <string name="app_name">车载启动器</string>
+    <string name="full_screen">全屏</string>
+    <string name="normal_screen">正常</string>
 
 </resources>

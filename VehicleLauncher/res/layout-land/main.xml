@@ -9,9 +9,9 @@
         android:id="@+id/titlebar_layout"
         android:layout_width="fill_parent"
         android:layout_height="35dp"
-        android:layout_alignLeft="@id/preview"
         android:layout_alignParentTop="false"
-        android:layout_alignRight="@+id/switch_group"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:layout_marginTop="4dp"
         android:background="#c4c9e5" >
 
@@ -116,14 +116,15 @@
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/preview"
+        android:id="@+id/preview_layout"
         android:layout_width="@dimen/preview_width"
         android:layout_height="match_parent"
         android:layout_above="@+id/all_apps_layout"
+        android:layout_alignLeft="@id/titlebar_layout"
         android:layout_below="@id/titlebar_layout"
         android:layout_marginBottom="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="6dp" >
+        android:layout_marginTop="6dp"
+        android:animateLayoutChanges="false" >
 
         <SurfaceView
             android:id="@+id/surfaceView"
@@ -133,16 +134,19 @@
         <RelativeLayout
             android:id="@+id/function_button_layout"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:clickable="true" >
 
             <LinearLayout
+                android:id="@+id/extra_fun_layout"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true" >
+                android:layout_alignParentTop="true"
+                android:visibility="invisible" >
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/record_settting"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
@@ -150,17 +154,22 @@
                     android:clickable="true"
                     android:src="@drawable/record_setting_sel" />
 
-                <ImageView
-                    android:id="@+id/imageView2"
+                <ToggleButton
+                    android:id="@+id/toggle_preview_size"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:background="@drawable/fullscreen"
                     android:clickable="true"
-                    android:src="@drawable/fullscreen" />
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:text="ToggleButton"
+                    android:textOff="@string/normal_screen"
+                    android:textOn="@string/full_screen" />
 
                 <ImageView
-                    android:id="@+id/imageView1"
+                    android:id="@+id/favorate_buttton"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
@@ -178,7 +187,8 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/record_toggle"
                 android:textOff="@null"
-                android:textOn="@null" />
+                android:textOn="@null"
+                android:visibility="invisible" />
 
             <com.vehicle.view.WeatherView
                 android:id="@+id/weather_layout"
@@ -274,23 +284,56 @@
         android:id="@+id/all_apps_layout"
         android:layout_width="fill_parent"
         android:layout_height="72dp"
-        android:layout_alignLeft="@id/preview"
+        android:layout_alignLeft="@id/preview_layout"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/favorite_apps"
+        android:layout_alignRight="@+id/favorite_apps_layout"
         android:layout_marginBottom="4dp"
         android:background="#ff0997d0" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/hazard_128px" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView1"
+            android:src="@drawable/pin_128px" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView4"
+            android:src="@drawable/settings_128px" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView5"
+            android:src="@drawable/turntable_128px" />
+
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/switch_group"
+        android:id="@+id/switch_group_layout"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/switch_group"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/preview"
+        android:layout_alignRight="@id/titlebar_layout"
+        android:layout_alignTop="@+id/preview_layout"
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_toRightOf="@id/preview"
+        android:layout_toRightOf="@id/preview_layout"
         android:background="#ff0572c7" >
 
         <TextView
@@ -377,16 +420,33 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/favorite_apps"
+        android:id="@+id/favorite_apps_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/all_apps_layout"
-        android:layout_alignBottom="@id/preview"
-        android:layout_alignLeft="@id/switch_group"
-        android:layout_alignRight="@+id/switch_group"
-        android:layout_below="@+id/switch_group"
-        android:layout_toRightOf="@id/preview"
+        android:layout_alignBottom="@id/preview_layout"
+        android:layout_alignLeft="@id/switch_group_layout"
+        android:layout_alignRight="@+id/switch_group_layout"
+        android:layout_below="@+id/switch_group_layout"
+        android:layout_toRightOf="@id/preview_layout"
         android:background="#ff3e9cbd" >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/mail_128px" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView2"
+            android:src="@drawable/settings_128px" />
+
     </RelativeLayout>
 
 </RelativeLayout>

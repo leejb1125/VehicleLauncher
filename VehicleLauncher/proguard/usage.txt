@@ -1,0 +1,209 @@
+android.annotation.SuppressLint
+android.annotation.TargetApi
+com.vehicle.bean.City:
+    private static final long serialVersionUID
+    33:33:public java.lang.String getProvince()
+    37:38:public void setProvince(java.lang.String)
+    45:46:public void setCity(java.lang.String)
+    53:54:public void setNumber(java.lang.String)
+    61:62:public void setFirstPY(java.lang.String)
+    69:70:public void setAllPY(java.lang.String)
+    73:73:public java.lang.String getAllFristPY()
+    77:78:public void setAllFristPY(java.lang.String)
+com.vehicle.bean.Pm2d5:
+    5:5:public Pm2d5()
+    20:20:public java.lang.String getAqi()
+    24:25:public void setAqi(java.lang.String)
+    28:28:public java.lang.String getArea()
+    32:33:public void setArea(java.lang.String)
+    36:36:public java.lang.String getPm2_5()
+    40:41:public void setPm2_5(java.lang.String)
+    44:44:public java.lang.String getPm2_5_24h()
+    48:49:public void setPm2_5_24h(java.lang.String)
+    52:52:public java.lang.String getQuality()
+    56:57:public void setQuality(java.lang.String)
+    60:60:public java.lang.String getTime_point()
+    64:65:public void setTime_point(java.lang.String)
+com.vehicle.bean.SimpleWeather:
+    14:15:public void setWeatherinfo(com.vehicle.bean.SimpleWeatherinfo)
+com.vehicle.bean.SimpleWeatherinfo:
+    5:5:public SimpleWeatherinfo()
+    28:29:public void setCity(java.lang.String)
+    32:32:public java.lang.String getCityid()
+    36:37:public void setCityid(java.lang.String)
+    44:45:public void setTemp(java.lang.String)
+    48:48:public java.lang.String getWD()
+    52:53:public void setWD(java.lang.String)
+    56:56:public java.lang.String getWS()
+    60:61:public void setWS(java.lang.String)
+    64:64:public java.lang.String getSD()
+    68:69:public void setSD(java.lang.String)
+    72:72:public java.lang.String getWSE()
+    76:77:public void setWSE(java.lang.String)
+    84:85:public void setTime(java.lang.String)
+com.vehicle.bean.Weather:
+    14:15:public void setWeatherinfo(com.vehicle.bean.Weatherinfo)
+com.vehicle.bean.Weatherinfo:
+    5:5:public Weatherinfo()
+    62:62:public java.lang.String getCity()
+    66:67:public void setCity(java.lang.String)
+    70:70:public java.lang.String getCity_en()
+    74:75:public void setCity_en(java.lang.String)
+    78:78:public java.lang.String getDate_y()
+    82:83:public void setDate_y(java.lang.String)
+    86:86:public java.lang.String getWeek()
+    90:91:public void setWeek(java.lang.String)
+    94:94:public java.lang.String getFchh()
+    98:99:public void setFchh(java.lang.String)
+    102:102:public java.lang.String getTemp1()
+    106:107:public void setTemp1(java.lang.String)
+    110:110:public java.lang.String getTemp2()
+    114:115:public void setTemp2(java.lang.String)
+    118:118:public java.lang.String getTemp3()
+    122:123:public void setTemp3(java.lang.String)
+    126:126:public java.lang.String getTemp4()
+    130:131:public void setTemp4(java.lang.String)
+    134:134:public java.lang.String getTemp5()
+    138:139:public void setTemp5(java.lang.String)
+    142:142:public java.lang.String getTemp6()
+    146:147:public void setTemp6(java.lang.String)
+    155:156:public void setWeather1(java.lang.String)
+    159:159:public java.lang.String getWeather2()
+    163:164:public void setWeather2(java.lang.String)
+    167:167:public java.lang.String getWeather3()
+    171:172:public void setWeather3(java.lang.String)
+    175:175:public java.lang.String getWeather4()
+    179:180:public void setWeather4(java.lang.String)
+    183:183:public java.lang.String getWeather5()
+    187:188:public void setWeather5(java.lang.String)
+    191:191:public java.lang.String getWeather6()
+    195:196:public void setWeather6(java.lang.String)
+    203:208:public void setWind1(java.lang.String)
+    211:211:public java.lang.String getWind2()
+    215:220:public void setWind2(java.lang.String)
+    223:223:public java.lang.String getWind3()
+    227:232:public void setWind3(java.lang.String)
+    235:235:public java.lang.String getWind4()
+    239:244:public void setWind4(java.lang.String)
+    247:247:public java.lang.String getWind5()
+    251:256:public void setWind5(java.lang.String)
+    259:259:public java.lang.String getWind6()
+    263:268:public void setWind6(java.lang.String)
+    271:271:public java.lang.String getIndex()
+    275:276:public void setIndex(java.lang.String)
+    279:279:public java.lang.String getIndex_d()
+    283:284:public void setIndex_d(java.lang.String)
+    287:287:public java.lang.String getIndex48()
+    291:292:public void setIndex48(java.lang.String)
+    295:295:public java.lang.String getIndex48_d()
+    299:300:public void setIndex48_d(java.lang.String)
+com.vehicle.db.CityDB:
+    public static final java.lang.String CITY_DB_NAME
+    private static final java.lang.String CITY_TABLE_NAME
+com.vehicle.launcher.BuildConfig
+com.vehicle.launcher.LauncherActivity:
+    private static final java.lang.String TAG
+com.vehicle.launcher.MyPhoneStateListener:
+    public static final int SIGNAL_STRENGTH_NONE_OR_UNKNOWN
+    public static final int SIGNAL_STRENGTH_POOR
+    public static final int SIGNAL_STRENGTH_MODERATE
+    public static final int SIGNAL_STRENGTH_GOOD
+    public static final int SIGNAL_STRENGTH_GREAT
+    public static final int NUM_SIGNAL_STRENGTH_BINS
+com.vehicle.launcher.R
+com.vehicle.launcher.R$anim
+com.vehicle.launcher.R$attr
+com.vehicle.launcher.R$color
+com.vehicle.launcher.R$dimen
+com.vehicle.launcher.R$drawable
+com.vehicle.launcher.R$id
+com.vehicle.launcher.R$layout
+com.vehicle.launcher.R$raw
+com.vehicle.launcher.R$string
+com.vehicle.launcher.WeatherModel:
+    static com.vehicle.launcher.WeatherModel mSingleInstance
+    private static final int CITY_LIST_SCUESS
+    private static final java.lang.String FORMAT
+    private static com.vehicle.launcher.LauncherApplication mApplication
+    private java.util.Map mWidgetWeatherIcon
+    153:153:public java.util.List getCityList()
+    157:157:public java.util.List getSections()
+    161:161:public java.util.Map getMap()
+    165:165:public java.util.List getPositions()
+    169:169:public java.util.Map getIndexer()
+    173:173:public boolean isCityListComplite()
+    181:196:public int getWeatherIcon(java.lang.String)
+    222:223:public void setmCurPm2d5(com.vehicle.bean.Pm2d5)
+com.vehicle.util.ConfigCache:
+    public static final int CONFIG_CACHE_MOBILE_TIMEOUT
+    public static final int CONFIG_CACHE_WIFI_TIMEOUT
+    80:97:public static void clearCache(java.io.File)
+com.vehicle.util.FileUtils:
+    private static final int BUFFER
+    14:14:public FileUtils()
+    67:86:public static void copyFile(java.io.File,java.io.File)
+com.vehicle.util.L:
+    private static final java.lang.String TAG
+    11:11:public L()
+    22:24:public static void d(java.lang.String)
+    27:29:public static void e(java.lang.String)
+    32:34:public static void v(java.lang.String)
+    38:40:public static void i(java.lang.String,java.lang.String)
+    48:50:public static void e(java.lang.String,java.lang.String)
+    53:55:public static void v(java.lang.String,java.lang.String)
+com.vehicle.util.Lunar
+com.vehicle.util.NetUtil:
+    public static final int NETWORN_NONE
+    public static final int NETWORN_WIFI
+    public static final int NETWORN_MOBILE
+    7:7:public NetUtil()
+com.vehicle.util.SharePreferenceUtil:
+    public static final java.lang.String CITY_SHAREPRE_FILE
+    private static final java.lang.String CASH_CITY
+    private static final java.lang.String SIMPLE_CLIMATE
+    private static final java.lang.String SIMPLE_TEMP
+    private static final java.lang.String TIMESAMP
+    private static final java.lang.String TIME
+    39:39:public java.lang.String getSimpleClimate()
+    49:49:public java.lang.String getSimpleTemp()
+    59:59:public long getTimeSamp()
+com.vehicle.util.T:
+    12:12:public T()
+    39:46:public static void showShort(android.content.Context,int)
+    71:78:public static void showLong(android.content.Context,int)
+    88:95:public static void show(android.content.Context,java.lang.CharSequence,int)
+    105:112:public static void show(android.content.Context,int,int)
+    116:119:public static void hideToast()
+com.vehicle.util.TimeUtil
+com.vehicle.util.ToPinYin
+com.vehicle.view.BatteryView:
+    private static final java.lang.String TAG
+com.vehicle.view.SpeedView:
+    private static final java.lang.String TAG
+com.vehicle.view.WeatherView:
+    public static final java.lang.String UPDATE_WIDGET_WEATHER_ACTION
+    public static final java.lang.String WEATHER_SIMPLE_URL
+    public static final java.lang.String WEATHER_BASE_URL
+    public static final java.lang.String PM2D5_BASE_URL
+    private static final java.lang.String WEATHER_INFO_FILENAME
+    private static final java.lang.String SIMPLE_WEATHER_INFO_FILENAME
+    private static final java.lang.String PM2D5_INFO_FILENAME
+    private static final int LOACTION_OK
+    private static final int ON_NEW_INTENT
+    private static final int UPDATE_EXISTS_CITY
+    private static final int GET_WEATHER_RESULT
+    protected static final java.lang.String TAG
+    private android.widget.ImageView mUpdateBtn
+    private android.widget.ProgressBar mUpdateProgressBar
+    private android.widget.TextView mTitleTextView
+    private android.widget.TextView timeTv
+    private android.widget.TextView humidityTv
+    private android.widget.TextView weekTv
+    private android.widget.TextView pmDataTv
+    private android.widget.TextView pmQualityTv
+    private android.widget.TextView temperatureTv
+    private android.widget.TextView climateTv
+    private android.widget.TextView windTv
+    144:145:private void updateWidgetWeather()
+    451:478:private void updatePm2d5Info()
+    540:544:protected void onActivityResult(int,int,android.content.Intent)

@@ -348,21 +348,21 @@ WeatherModel.EventHandler {
 
     private void parsePm2d5Info(String url, String result,
             boolean isRefreshPm2d5) {
-        mCurPm2d5 = null;
-        mWeatherModel.setmCurWeatherinfo(null);
-        if (!TextUtils.isEmpty(result) && !result.contains("error")) {
-            // L.i(result);
-            List<Pm2d5> pm2d5s = mGson.fromJson(result,
-                    new TypeToken<List<Pm2d5>>() {
-                    }.getType());
-            mCurPm2d5 = pm2d5s.get(0);
-            // L.i(mCurPm2d5.toString());
-        } else {
-            result = "";
-        }
-        if (isRefreshPm2d5 && !TextUtils.isEmpty(result))
-            // save2File(result, PM2D5_INFO_FILENAME);
-            ConfigCache.setUrlCache(result, url);
+//        mCurPm2d5 = null;
+//        mWeatherModel.setmCurWeatherinfo(null);
+//        if (!TextUtils.isEmpty(result) && !result.contains("error")) {
+//            // L.i(result);
+//            List<Pm2d5> pm2d5s = mGson.fromJson(result,
+//                    new TypeToken<List<Pm2d5>>() {
+//                    }.getType());
+//            mCurPm2d5 = pm2d5s.get(0);
+//            // L.i(mCurPm2d5.toString());
+//        } else {
+//            result = "";
+//        }
+//        if (isRefreshPm2d5 && !TextUtils.isEmpty(result))
+//            // save2File(result, PM2D5_INFO_FILENAME);
+//            ConfigCache.setUrlCache(result, url);
     }
 
 
@@ -436,10 +436,8 @@ WeatherModel.EventHandler {
             }
             
         } else {
-            temperatureTv.setText("N/A");
-            cityTv.setText(mCurCity.getCity());
-            windTv.setText("N/A");
-            climateTv.setText("N/A");
+            mTempView.setText("N/A");
+            mCityView.setText("N/A");
             //weatherImg.setImageResource(R.drawable.biz_plugin_weather_qing);
             //T.showLong(mApplication, "获取天气信息失败");
             L.d(TAG, "updateWeatherInfo failed");

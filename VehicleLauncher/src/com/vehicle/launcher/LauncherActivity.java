@@ -47,14 +47,18 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsSeekBar;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import android.telephony.PhoneStateListener;  
 import android.telephony.ServiceState;
 import android.telephony.SignalStrength;    
@@ -64,14 +68,24 @@ import android.widget.Switch;
 public class LauncherActivity extends Activity {
 	private static final String TAG = "LauncherActivity";
 	Preview preview;
-	Button buttonClick;
-	BatteryView battery;
+	SurfaceView mSurfaceView;
+	ToggleButton mButtonRecord;
+	ToggleButton mPreviewSizeToggle;
+	BatteryView mBattery;
 	SignalView mPhoneSignal;
 	TextView mDataLink;
 	Switch mNetworkSwitch;
 	SeekBar mBrightnessSeekBar;
 	SeekBar mVolumeSeekBar;
 	Camera camera;
+	RelativeLayout mFunctionButtonLayout;
+	RelativeLayout mSwitchGroupLayout;
+	RelativeLayout mFavoriteAppsLayout;
+	RelativeLayout mAllAppsLayout;
+	LinearLayout mExtraFunLayout;
+	FrameLayout mPreViewLayout;
+	RelativeLayout.LayoutParams mPreViewLayoutNormal;
+	RelativeLayout.LayoutParams mPreViewLayoutFullScreen;
 	
 	String fileName;
 	Activity act;
@@ -82,6 +96,16 @@ public class LauncherActivity extends Activity {
 	private AudioManager mAudioManager;
 	private PlaySoundPool playSoundPool ;
 	Handler mUpdateHandler = new Handler();
+	Runnable mTimerHideButton = new Runnable() {
+        
+        @Override
+        public void run() {
+            mExtraFunLayout.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.slide_left_out));
+            mButtonRecord.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.rotate_zoom_out));
+            mExtraFunLayout.setVisibility(View.INVISIBLE);
+            mButtonRecord.setVisibility(View.INVISIBLE);
+        }
+    };
 
 	
 	
@@ -158,9 +182,6 @@ public class LauncherActivity extends Activity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mBatteryBroadcastReceiver, filter);
-        filter = new IntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(mNetConnectionBroadcastReceiver, filter);
     }
 
     @Override
@@ -173,27 +194,62 @@ public class LauncherActivity extends Activity {
         }
         super.onPause();
         unregisterReceiver(mBatteryBroadcastReceiver);
-        unregisterReceiver(mNetConnectionBroadcastReceiver);
     }
 	
 	private void initViews(){
-		battery = (BatteryView) findViewById(R.id.battery);
+		mBattery = (BatteryView) findViewById(R.id.battery);
 		mPhoneSignal = (SignalView) findViewById(R.id.phone_signal);
 		mDataLink = (TextView) findViewById(R.id.data_link);
 		mNetworkSwitch = (Switch) findViewById(R.id.network_switch);
+		mFunctionButtonLayout = (RelativeLayout) findViewById(R.id.function_button_layout);
+		mPreViewLayout = (FrameLayout) findViewById(R.id.preview_layout);
+		mSwitchGroupLayout = (RelativeLayout) findViewById(R.id.switch_group_layout);
+		mFavoriteAppsLayout = (RelativeLayout) findViewById(R.id.favorite_apps_layout);
+		mAllAppsLayout = (RelativeLayout) findViewById(R.id.all_apps_layout);
+		mExtraFunLayout = (LinearLayout) findViewById(R.id.extra_fun_layout);
+		mSurfaceView = (SurfaceView)findViewById(R.id.surfaceView);
 		preview = new Preview(this, (SurfaceView)findViewById(R.id.surfaceView));
-		preview.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		((FrameLayout) findViewById(R.id.preview)).addView(preview);
-		preview.setKeepScreenOn(true);
+		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		mPreViewLayout.addView(preview);
+		//preview.setKeepScreenOn(true);
+		mPreViewLayoutNormal = (RelativeLayout.LayoutParams)mPreViewLayout.getLayoutParams();
+		mPreViewLayoutFullScreen = new RelativeLayout.LayoutParams(mPreViewLayoutNormal);
+		mPreViewLayoutFullScreen.width = LayoutParams.MATCH_PARENT;
+		int[] rules = mPreViewLayoutNormal.getRules();
+		for(int verb = 0; verb <  rules.length; verb++){
+		    mPreViewLayoutFullScreen.addRule(verb, rules[verb]) ;
+		}
+		mPreViewLayoutFullScreen.addRule(RelativeLayout.ALIGN_RIGHT, R.id.titlebar_layout);		
 		
-		buttonClick = (Button) findViewById(R.id.record_button);		
-		buttonClick.setOnClickListener(new OnClickListener() {
+		mFunctionButtonLayout.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "mFunctionButtonLayout clicked");
+                if(mExtraFunLayout.getVisibility() == View.INVISIBLE){
+                    mExtraFunLayout.bringToFront();
+                    mExtraFunLayout.startAnimation(AnimationUtils.loadAnimation(mExtraFunLayout.getContext(), android.R.anim.slide_in_left));
+                }
+                if(mButtonRecord.getVisibility() == View.INVISIBLE){
+                    mButtonRecord.startAnimation(AnimationUtils.loadAnimation(mExtraFunLayout.getContext(), R.anim.rotate_zoom_in));
+                    mButtonRecord.bringToFront();
+                }
+                mExtraFunLayout.setVisibility(View.VISIBLE);
+                mButtonRecord.setVisibility(View.VISIBLE);
+                mFunctionButtonLayout.removeCallbacks(mTimerHideButton);
+                mFunctionButtonLayout.postDelayed(mTimerHideButton, 5000); 
+            }
+        });
+
+		
+		mButtonRecord = (ToggleButton) findViewById(R.id.record_button);		
+		mButtonRecord.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				camera.takePicture(shutterCallback, rawCallback, jpegCallback);
 			}
 		});
 		
-		buttonClick.setOnLongClickListener(new OnLongClickListener(){
+		mButtonRecord.setOnLongClickListener(new OnLongClickListener(){
 			@Override
 			public boolean onLongClick(View arg0) {
 				camera.autoFocus(new AutoFocusCallback(){
@@ -205,6 +261,36 @@ public class LauncherActivity extends Activity {
 				return true;
 			}
 		});	
+		mPreviewSizeToggle = (ToggleButton) findViewById(R.id.toggle_preview_size);
+		mPreviewSizeToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    mPreViewLayout.postDelayed(new Runnable() {
+                        public void run() {
+                            mPreViewLayout.setLayoutParams(mPreViewLayoutFullScreen);
+                        }
+                    }, 300);
+                    mSwitchGroupLayout.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.slide_right_out));
+                    mFavoriteAppsLayout.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.slide_right_out));
+                    mAllAppsLayout.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.slide_bottom_out));
+                    mSwitchGroupLayout.setVisibility(View.GONE);
+                    mFavoriteAppsLayout.setVisibility(View.GONE);
+                    mAllAppsLayout.setVisibility(View.GONE);
+                    
+                }else{
+                    mPreViewLayout.setLayoutParams(mPreViewLayoutNormal);
+                    mSwitchGroupLayout.setVisibility(View.VISIBLE);
+                    mFavoriteAppsLayout.setVisibility(View.VISIBLE);
+                    mAllAppsLayout.setVisibility(View.VISIBLE);
+                    mSwitchGroupLayout.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.slide_right_in));
+                    mFavoriteAppsLayout.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.slide_right_in));
+                    mAllAppsLayout.startAnimation(AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.slide_bottom_in));
+                }
+                mPreViewLayout.invalidate();
+            }
+        });
 
 		mNetworkSwitch.setChecked(checkNetworkValidate());
 		mNetworkSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -401,8 +487,8 @@ public class LauncherActivity extends Activity {
 					acString = "plugged usb";
 					break;
 				}
-				if(battery != null){
-					battery.setBatteryStatusAndLevel(status, level);
+				if(mBattery != null){
+					mBattery.setBatteryStatusAndLevel(status, level);
 				}
 
 				Log.v("status", statusString);
